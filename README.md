@@ -1,5 +1,5 @@
 ## Overview
-This image is a simple one click demo of HashiCorp Vault and Vault Agent. It is by no means an example of a good production setup, as it violates the one process per container model.
+This [image](https://hub.docker.com/r/kosir/vault-agent-demo) is a simple one click demo of HashiCorp Vault and Vault Agent. It is by no means an example of a good production setup, as it violates the one process per container model.
 
 This image is meant for demos and proof of concepts showing how Vault Agent interacts with Vault, including rendering both static and dynamic secrets to a file.
 
