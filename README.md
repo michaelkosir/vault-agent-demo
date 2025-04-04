@@ -108,13 +108,3 @@ Stop the container
 ```
 docker stop vault-agent-demo
 ```
-## Docker Build
-```shell
-docker buildx create --use
-
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t kosir/vault-agent-demo:1.19 \
-  --push \
-  .
-```
