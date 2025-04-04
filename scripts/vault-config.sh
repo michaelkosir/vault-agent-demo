@@ -5,9 +5,15 @@ set -e
 export VAULT_ADDR='http://localhost:8200'
 export VAULT_TOKEN='root'
 
+# wait for vault
 until vault status >/dev/null 2>&1; do
     echo "Waiting for Vault to be ready..."
-    sleep 2
+    sleep 1
+done
+
+# wait for mongo
+while ! nc -z 127.0.0.1 27017; do
+  sleep 1
 done
 
 ##################
@@ -19,6 +25,24 @@ vault kv put kv/path/to/secret \
   foo=bar \
   username="admin" \
   password="super-secure-password"
+
+##################
+# Database Secrets
+##################
+vault secrets enable database
+
+vault write database/config/db001 \
+    plugin_name=mongodb-database-plugin \
+    allowed_roles="demo" \
+    connection_url="mongodb://{{username}}:{{password}}@localhost:27017/admin" \
+    username="admin" \
+    password="admin"
+
+vault write database/roles/demo \
+    db_name=db001 \
+    creation_statements='{ "db": "admin", "roles": [{ "role": "read" }] }' \
+    default_ttl="15s" \
+    max_ttl="15s"
 
 ##################
 # PKI Secrets Engine
@@ -61,6 +85,9 @@ path "kv/data/path/to/secret" {
 }
 path "pki/issue/demo" {
   capabilities = ["create", "update"]
+}
+path "database/creds/demo" {
+  capabilities = ["read"]
 }
 EOF
 

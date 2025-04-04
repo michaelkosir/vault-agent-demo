@@ -7,7 +7,7 @@ COPY config/agent.hcl /etc/vault/agent.hcl
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 COPY ./scripts /bin
-RUN chmod +x /bin/vault-config.sh /bin/vault-agent.sh
+RUN chmod +x /bin/*.sh
 
 EXPOSE 8200
 

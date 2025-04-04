@@ -13,7 +13,6 @@ auto_auth {
   }
 }
 
-# kv secret
 template {
   contents = <<-EOF
   {{- with secret "kv/path/to/secret" -}}
@@ -23,6 +22,24 @@ template {
   {{- end }}
   EOF
   destination  = "/run/vault/static.env"
+
+  perms = "640"
+  user = "vault"
+  group = "nobody" # replace with the group you want
+
+  exec = {
+    command = "echo 'reloading application...'" # replace with the command you want to run
+  }
+}
+
+template {
+  contents = <<-EOF
+  {{- with secret "database/creds/demo" -}}
+  username={{ .Data.username }}
+  password={{ .Data.password }}
+  {{- end }}
+  EOF
+  destination  = "/run/vault/database.env"
 
   perms = "640"
   user = "vault"
