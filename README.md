@@ -12,7 +12,12 @@ If you are on Kubernetes or OpenShift, be sure checkout the following integratio
 ## Instructions
 Launch the container
 ```shell
-docker run --rm -dp 8200:8200 --name vault-agent-demo kosir/vault-agent-demo:1.19
+docker run \
+  --rm \
+  --detach \
+  --publish 8200:8200 \
+  --name vault-agent-demo \
+  kosir/vault-agent-demo:1.19
 ```
 
 Exec into the container:
