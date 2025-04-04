@@ -1,10 +1,10 @@
 vault {
-  address = "http://localhost:8200" # replace with your Vault address
+  address = "http://localhost:8200"
 }
 
 auto_auth {
   method {
-    type = "approle" # approle for demo purposes
+    type = "approle"
     config = {
       role_id_file_path = "/etc/vault/roleid"
       secret_id_file_path = "/etc/vault/secretid"
@@ -25,10 +25,10 @@ template {
 
   perms = "640"
   user = "vault"
-  group = "nobody" # replace with the group you want
+  group = "nobody"
 
   exec = {
-    command = "echo 'reloading application...'" # replace with the command you want to run
+    command = "echo 'reloading application...'"
   }
 }
 
@@ -43,10 +43,10 @@ template {
 
   perms = "640"
   user = "vault"
-  group = "nobody" # replace with the group you want
+  group = "nobody"
 
   exec = {
-    command = "echo 'reloading application...'" # replace with the command you want to run
+    command = "echo 'reloading application...'"
   }
 }
 
@@ -66,6 +66,6 @@ template {
   group = "vault"
 
   exec = {
-    command = "echo 'reloading application...'" # replace with the command you want to run
+    command = "echo 'reloading application...'"
   }
 }
