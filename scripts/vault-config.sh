@@ -7,13 +7,12 @@ export VAULT_TOKEN='root'
 
 # wait for vault
 until vault status >/dev/null 2>&1; do
-    echo "Waiting for Vault to be ready..."
-    sleep 2
+    sleep 1
 done
 
 # wait for mongo
-while ! nc -z 127.0.0.1 27017; do
-  sleep 2
+until mongo -u admin -p admin --eval "db.adminCommand('ping')" >/dev/null 2>&1; do
+    sleep 1
 done
 
 ##################

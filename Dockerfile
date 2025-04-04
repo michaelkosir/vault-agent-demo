@@ -1,6 +1,6 @@
 FROM hashicorp/vault:1.19
 
-RUN apk add --no-cache supervisor
+RUN apk add --no-cache supervisor openssl
 RUN mkdir -p /etc/vault /var/log/supervisor /run/vault/tls /app
 
 COPY config/agent.hcl /etc/vault/agent.hcl

@@ -69,18 +69,20 @@ View the rendered CA Cert and Public Key
 cat /run/vault/tls/server.pem
 ```
 
+View the TLS certificate metadata
+```shell
+openssl x509 -in /run/vault/tls/server.pem -text -noout
+```
+
 View the Vault Agent template stanza
 ```shell
 cat /etc/vault/agent.hcl | grep "with pkiCert" -B2 -A16
 ```
 
 ### Logs
-View the Vault Agent logs
-```shell
-tail -n 20 /var/log/supervisor/vault-agent.err.log
-```
-
-Watch Vault Agent renew auth (~30s) and reauth (~60s)
+Watch the Vault Agent logs
+Renew auth (~30s) and reauth (~60s)
+Regenerate database credentials (~15s)
 ```shell
 tail -f /var/log/supervisor/vault-agent.err.log
 ```
@@ -110,6 +112,6 @@ exit
 ```
 
 Stop the container
-```
+```shell
 docker stop vault-agent-demo
 ```
