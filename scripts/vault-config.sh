@@ -8,12 +8,12 @@ export VAULT_TOKEN='root'
 # wait for vault
 until vault status >/dev/null 2>&1; do
     echo "Waiting for Vault to be ready..."
-    sleep 1
+    sleep 2
 done
 
 # wait for mongo
 while ! nc -z 127.0.0.1 27017; do
-  sleep 1
+  sleep 2
 done
 
 ##################

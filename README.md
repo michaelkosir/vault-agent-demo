@@ -12,7 +12,7 @@ If you are on Kubernetes or OpenShift, be sure checkout the following integratio
 ## Instructions
 Launch the container
 ```shell
-docker run --rm -d -p 8200:8200 --name vault-agent-demo kosir/vault-agent-demo:1.19
+docker run --rm -dp 8200:8200 --name vault-agent-demo kosir/vault-agent-demo:1.19
 ```
 
 Exec into the container:
@@ -21,9 +21,9 @@ docker exec -it vault-agent-demo /bin/sh
 ```
 
 ### Vault Agent Config
-View the config file for Vault Agent
+View the `vault` and `auto_auth` stanza
 ```shell
-cat /etc/vault/agent.hcl
+head -n 14 /etc/vault/agent.hcl
 ```
 
 ### Static Secrets
@@ -34,7 +34,18 @@ cat /run/vault/static.env
 
 View the Vault Agent template stanza
 ```shell
-cat /etc/vault/agent.hcl | grep "with secret" -B2 -A15
+cat /etc/vault/agent.hcl | grep "kv/path/to/secret" -B2 -A15
+```
+
+### Database Secrets
+Watch the rendered database secrets change (~15s)
+```shell
+watch cat /run/vault/database.env
+```
+
+View the Vault Agent template stanza
+```shell
+cat /etc/vault/agent.hcl | grep "database/creds/demo" -B2 -A14
 ```
 
 ### PKI
@@ -97,8 +108,6 @@ Stop the container
 ```
 docker stop vault-agent-demo
 ```
-
-
 ## Docker Build
 ```shell
 docker buildx create --use
