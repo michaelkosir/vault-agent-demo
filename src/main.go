@@ -14,7 +14,7 @@ import (
 var (
 	staticEnvFile   = "/secrets/static.env"
 	databaseEnvFile = "/secrets/database.env"
-	
+
 	tlsCertFile = "/secrets/server.crt"
 	tlsKeyFile  = "/secrets/server.key"
 )
