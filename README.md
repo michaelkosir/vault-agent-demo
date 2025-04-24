@@ -1,9 +1,10 @@
 ## Overview
-This [image](https://hub.docker.com/r/kosir/vault-agent-demo) is a simple one click demo of HashiCorp Vault and Vault Agent. It is by no means an example of a good production setup, as it violates the one process per container model.
+This [image](https://hub.docker.com/r/kosir/vault-agent-demo) is a simple one click demo of HashiCorp Vault and Vault Agent. 
 
-This image is meant for demos and proof of concepts showing how Vault Agent interacts with Vault, including rendering both static and dynamic secrets to a file.
+## Disclaimer
+This repo is by no means an example of a good production setup, as it violates containerization best practices. This image is solely meant for demos and proof of concepts showing how Vault Agent interacts with Vault, including rendering both static and dynamic secrets to a file.
 
-This demo is geared towards Virtual Machine based use cases.\
+This demo is geared towards Virtual Machine based use cases. \
 If you are on Kubernetes or OpenShift, be sure checkout the following integration patterns:
 - [Vault Secrets Operator](https://developer.hashicorp.com/vault/docs/platform/k8s/vso)
 - [Vault Agent Injector](https://developer.hashicorp.com/vault/docs/platform/k8s/injector)
