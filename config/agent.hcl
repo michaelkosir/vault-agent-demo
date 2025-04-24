@@ -13,6 +13,10 @@ auto_auth {
   }
 }
 
+template_config {
+  static_secret_render_interval = "30s"
+}
+
 template {
   contents = <<-EOF
   {{- with secret "kv/path/to/secret" -}}

@@ -35,7 +35,7 @@ head -n 14 /vault/config/agent.hcl
 ### Static Secrets
 View the Vault Agent template stanza
 ```shell
-cat /vault/config/agent.hcl | grep "kv/path/to/secret" -B2 -A16
+cat /vault/config/agent.hcl | grep "template_config" -A22
 ```
 
 View the rendered static secrets
@@ -101,11 +101,20 @@ exit
 
 If you have `jq` installed, you can watch the changes from the command line.
 ```shell
-watch "curl -s --insecure https://localhost:8000 | jq"
+watch "curl -sk https://localhost:8000 | jq"
 ```
 
 ### Cleanup
 ```shell
 docker stop vault-agent-demo
 docker rmi kosir/vault-agent-demo
+```
+
+## Image Build
+```shell
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  --tag kosir/vault-agent-demo:latest \
+  --push \
+  .
 ```
