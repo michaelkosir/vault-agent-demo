@@ -1,16 +1,13 @@
 # Build stage
 FROM golang:1.24-alpine AS build
 
-ARG TARGETOS
-ARG TARGETARCH
-
 WORKDIR /app
 COPY ./src/ /app
 RUN go mod download
-RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o webapp .
+RUN go build -o webapp .
 
 # Final stage
-FROM hashicorp/vault:1.19
+FROM hashicorp/vault:1.20
 
 COPY --from=build /app/webapp /bin
 

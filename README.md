@@ -140,7 +140,6 @@ docker rmi kosir/vault-agent-demo
 
 ```shell
 docker buildx build \
-  --platform linux/amd64,linux/arm64 \
   --tag kosir/vault-agent-demo:latest \
   --push \
   .
