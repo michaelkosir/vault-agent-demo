@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -41,8 +42,14 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// Set response header to application/json
 	w.Header().Set("Content-Type", "application/json")
 
+	// Create a new JSON encoder
+	encoder := json.NewEncoder(w)
+
+	// Set the prefix and indent for pretty printing
+	encoder.SetIndent("", "  ")
+
 	// Encode the environment variables as JSON and write to response
-	if err := json.NewEncoder(w).Encode(data); err != nil {
+	if err := encoder.Encode(data); err != nil {
 		http.Error(w, "Failed to encode JSON", http.StatusInternalServerError)
 	}
 }
@@ -52,12 +59,28 @@ func main() {
 	loadEnvFiles()
 
 	// Set up HTTP server
-	http.HandleFunc("/", handler)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", handler)
 
-	// Start the server
+	// Configure HTTP server
+	srv := &http.Server{
+		Addr:    ":8000",
+		Handler: mux,
+		TLSConfig: &tls.Config{
+			GetCertificate: func(*tls.ClientHelloInfo) (*tls.Certificate, error) {
+				cert, err := tls.LoadX509KeyPair(tlsCertFile, tlsKeyFile)
+				if err != nil {
+					return nil, err
+				}
+				return &cert, nil
+			},
+		},
+	}
+
+	// Start the HTTP server
 	go func() {
 		log.Println("Starting server on :8000...")
-		log.Fatal(http.ListenAndServeTLS(":8000", tlsCertFile, tlsKeyFile, nil))
+		log.Fatal(srv.ListenAndServeTLS("", ""))
 	}()
 
 	// Handle SIGHUP signal to reload environment variables
@@ -68,7 +91,7 @@ func main() {
 		sig := <-sigs
 		switch sig {
 		case syscall.SIGHUP:
-			log.Println("Received SIGHUP signal, reloading environment variables...")
+			log.Println("SIGHUP: reload environment variables...")
 			loadEnvFiles()
 		}
 	}

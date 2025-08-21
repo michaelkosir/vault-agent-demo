@@ -57,7 +57,7 @@ template {
 
 template {
   contents = <<-EOF
-  {{- with pkiCert "pki/issue/demo" "common_name=localhost" "ttl=24h" -}}
+  {{- with pkiCert "pki/issue/demo" "common_name=localhost" "ttl=10m" -}}
   {{ .Data.Key }}{{ .Data.Cert }}{{ .Data.CA }}
   {{- .Key | writeToFile "/secrets/server.key" "vault" "nobody" "640" }}
   {{- .Cert | writeToFile "/secrets/server.crt" "vault" "nobody" "644" "newline" }}
@@ -69,8 +69,4 @@ template {
   perms = "600"
   user = "vault"
   group = "vault"
-
-  exec = {
-    command = "/usr/bin/supervisorctl signal HUP webapp || true"
-  }
 }
